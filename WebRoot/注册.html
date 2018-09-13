@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>注册账号</title>
+    <style>
+        * {
+            margin: 0; padding: 0; }
+        html {
+            height: 100%; }
+        body {
+            height: 100%;
+            background: #fff url(images/back.jpg) 50% 50% no-repeat;
+            background-size: cover;}
+        .dowebok {
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 430px; height: 650px;
+            margin: -330px 0 0 -215px;
+            box-shadow: 0 0 15px gray;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: rgba(108, 103, 110, 0.41);}
+        .logo {
+            width: 128px; height: 128px;
+            margin: 30px auto 30px;
+            background: url(images/logo3.png) 0 0 no-repeat; }
+        .form-item {
+            position: relative;
+            width: 360px;
+            margin: 0 auto;
+            padding-bottom: 30px;}
+        .form-item input {
+            width: 288px;  height: 48px;
+            padding-left: 70px;
+            border: 1px solid #fff;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+        .form-item button {
+            width: 360px; height: 50px;
+            border: 0;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #1f6f4a;
+            outline: none;
+            cursor: pointer;
+            background-color: #fff; }
+        #username {
+            margin-bottom: 25px}
+        #password {
+            margin-bottom: 25px}
+        .reg-bar a {
+            color: #fff;
+            text-decoration: none; }
+        .reg-bar a:hover {
+            text-decoration: underline; }
+        .dowebok ::-webkit-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .dowebok :-moz-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .dowebok ::-moz-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .dowebok :-ms-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+
+        @media screen and (max-width: 500px) {
+            * { box-sizing: border-box; }
+            .dowebok { position: static; width: auto; height: auto; margin: 0 30px; border: 0; border-radius: 0; }
+            .logo { margin: 50px auto; }
+            .form-item { width: auto; }
+            .form-item input, .form-item button, .reg-bar { width: 100%; }
+        }
+    </style>
+
+</head>
+<body>
+<div class="dowebok">
+    <div class="logo"></div>
+    <div class="form-item">
+        <input id="username1" type="text" autocomplete="off" placeholder="账号">
+        <input id="username2" type="text" autocomplete="off" placeholder="确认账号">
+        <input id="password1" type="password" autocomplete="off" placeholder="密码">
+        <input id="password2" type="password" autocomplete="off" placeholder="确认密码">
+    </div>
+    <div class="form-item"><button id="submit">注 册</button></div>
+
+</div>
+<script type="text/javascript">
+		var btn = document.getElementById("submit");
+		btn.onclick = function() {
+			var xmlhttp= new XMLHttpRequest();
+			xmlhttp.open("POST","RegistServlet",true);
+ 			xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+ 			xmlhttp.send("username=" + document.getElementById("username2").value + 
+ 			"&password=" + document.getElementById("password2").value);
+ 			xmlhttp.onreadystatechange=function(){
+ 				if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+ 					var p=eval("(" + xmlhttp.responseText + ")");
+ 					if(p==false){
+ 						window.location.href="登陆.html";
+ 					}else{
+ 						window.location.href="登陆.html";
+ 					}
+ 				}
+ 			}
+ 		}
+		
+	</script>
+</body>
+</html>

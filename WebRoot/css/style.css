@@ -1,0 +1,222 @@
+* { margin: 0; padding: 0; }
+html { height: 100%; }
+body
+{
+    height: 100%;
+    background: #000 url(../images/back.jpg) 50% 50% no-repeat;
+    background-size: cover;
+
+}
+button,input,a{
+    outline:none;
+}
+
+div{
+    position:relative;
+    display: block;
+    width:1000px;
+    height:550px;
+    left:15%;
+    top:10%;
+    border-radius:15px;
+    background: rgba(108, 103, 110, 0.41);
+}
+div header {
+    display: flex;
+    position: absolute;
+    width: 1000px;
+    height: 100px;
+}
+div header h1{
+    margin: 0 auto;
+    font-weight:lighter;
+    font-style: normal;
+    font-size: 60px;
+    font-family:华文新魏;
+    color: lightblue;
+    text-shadow:2px 2px 4px #000000;
+
+}
+
+ #right h1{
+    position: absolute;
+    left:40px;
+    top:190px;
+    font-family:华文新魏;
+    font-size: 50px;
+    color: lightblue;
+    transition: 1s;
+    text-shadow:2px 2px 4px #000000;
+}
+
+div ul{
+    display: block ;
+    position: absolute;
+    float: left;
+    top: 110px;
+    width: 150px;
+    height: 400px;
+    left:10px;
+    border-radius: 20px;
+}
+#form1,#form2,#form3,#form4{
+    position: absolute;
+    display:none;
+    width:700px;
+    height:400px;
+    top:130px;
+    left:280px ;
+    border-radius:15px;
+}
+.ID
+{
+    position: absolute;
+    margin-top:5px;
+    width:200px;
+    height:30px;
+    top: 0;
+    left: 100px;
+    border-radius:5px;
+    display: block;
+    text-align:left;
+    font-size: 20px;
+}
+.rows
+{
+    position: absolute;
+    margin-top:5px;
+    width:200px;
+    height:30px;
+    top: 40px;
+    left: 100px;
+    border-radius:5px;
+    display: block;
+    text-align:left;
+    font-size: 20px;
+}
+.cols
+{
+    position: absolute;
+    margin-top:5px;
+    width:200px;
+    height:30px;
+    top: 80px;
+    left: 100px;
+    border-radius:5px;
+    display: block;
+    text-align:left;
+    font-size: 20px;
+}
+textarea{
+    position: absolute;
+    width:415px;
+    height:150px;
+    outline:none;
+    border:none;
+    top: 130px;
+    left: 100px;
+    font-size:20px;
+    border-radius: 5px;
+    margin-bottom:10px;
+    display: block;
+    text-align: left;
+
+}
+.submit{
+    position: absolute;
+    width:80px;
+    height: 40px;
+    left:100px;
+    top:320px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #1f6f4a;
+    background-color: #fff;
+    border:0;
+    border-radius:5px;
+    text-align: center;
+    font-size: 20px;
+}
+.reset{
+    position: absolute;
+    width:80px;
+    height: 40px;
+    left:450px;
+    top:320px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #1f6f4a;
+    background-color: #fff;
+    border:0;
+    border-radius:5px;
+    text-align: center;
+    font-size: 20px;
+}
+.submit:hover, .reset:hover{
+    font-size:150%;
+    color: red;
+}
+div ul li{
+    list-style-type: none;
+    margin-top: 30px;
+    margin-left:0;
+    display: inline-block ;
+    background-color:  rgba(108,103,110,0.41);
+    box-shadow: 0 0 15px gray;
+    overflow:hidden;
+    border-radius: 25px;
+
+}
+div ul li #button-add,#button-del,#button-up,#button-sel,#button-back ,a{
+    width: 200px;
+    height: 50px;
+    border: 0;
+    outline: none;
+    background-color:darkgray;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 20px;
+    font-family:"微软雅黑";
+
+}
+
+div ul li #button-add:hover,#button-sel:hover,#button-up:hover,#button-del:hover,#button-back a:hover{
+    font-size:25px;
+    color: red;
+}
+p{
+    font-size: 20px;
+    font-family: "微软雅黑";
+    color: lightblue;
+
+}
+.IDp{
+    position: absolute;
+    left:-2px;
+    top: 10px;
+}
+.rsp{
+    position: absolute;
+    left: 55px;
+    top: 50px;
+}
+.csp{
+    position: absolute;
+    left: 55px;
+    top: 90px;
+}
+.acp{
+    position: absolute;
+    left: -18px;
+    top: 130px;
+}
+ #right{
+    position: absolute;
+    display:block;
+    width:750px;
+    height:400px;
+    top:110px;
+    left:240px;
+    text-align: center;
+}

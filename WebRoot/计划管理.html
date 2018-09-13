@@ -1,0 +1,475 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>演出厅管理</title>
+    <link rel="stylesheet" href="css/movieplan.css"  type="text/css"/>
+
+</head>
+<body>
+
+<div id="movie">
+    <div id="left"><p>选择影片</p></div>
+    <div id="right"></div>
+</div>
+<div id="button-all">
+    <button id="button-add">添加</button>
+    <button id="button-del">删除</button>
+    <button id="button-sel">查询</button>
+    <button id="button-back">返回主菜单</button>
+</div>
+
+<button id="button-name">按影片查询</button>
+<button id="button-ID">按演播厅查询</button>
+
+<div id="form1">
+    <p id="tip-id">演播厅ID</p>
+    <select id="add-room-ID" name="演播厅ID"></select>
+    <p id="tip-name">影片名称</p>
+    <select id="add-name" name="影片名称"></select>
+    <input id="add-year" type="date" placeholder="年-月-日">
+    <select id="add-hour"></select>
+    <select id="add-minute"></select>
+    <input id="price" type="number" placeholder="票价">
+    <input id="form1-submit" type="submit" value="提交">
+    <input id="form1-reset" type="reset" placeholder="取消">
+</div>
+<div id="form2">
+    <input id="form2-ID" type="text" placeholder="演出计划ID">
+    <input id="form2-submit" type="submit"  value="确认">
+    <input id="form2-reset" type="reset"  placeholder="取消">
+</div>
+<div id="form3">
+    <p id="form3-tip">影片名称</p>
+    <select id="form3-name" name="影片名称"></select>
+    <input id="form3-submit" type="submit" value="确认">
+    <input id="form3-reset" type="reset" placeholder="取消">
+</div>
+<div id="form4">
+    <p id="form4-tip">演播厅ID</p>
+    <select id="form4-ID" name="演播厅ID"></select>
+    <input id="form4-submit" type="submit" value="确认">
+    <input id="form4-reset" type="reset" placeholder="取消">
+</div>
+<table id="result"></table>
+
+<script type="text/javascript">
+
+    var add=document.getElementById("button-add");
+    var back1=document.getElementById("form1-reset");
+    var form1=document.getElementById("form1");
+
+    var sel=document.getElementById("button-sel");
+    var form3=document.getElementById("form3");
+    var back3=document.getElementById("form3-reset");
+
+    var del=document.getElementById("button-del");
+    var form2=document.getElementById("form2");
+    var back2=document.getElementById("form2-reset");
+    var back=document.getElementById("button-back");
+    var form4=document.getElementById("form4");
+    var back4=document.getElementById("form4-reset");
+
+    var btnname=document.getElementById("button-name");
+    var btnID=document.getElementById("button-ID");
+    /* 向后台获取剧目信息*/
+    var title=document.getElementById("right");
+    function createName(data){
+        var str='';
+        for(var i=0,temp;temp=data[i];i++)
+        {
+            str+= '<span id="name">'+temp.title+'</span>';
+        }
+        title.innerHTML=str;
+    }
+    //自动生成下拉菜单
+    var addname=document.getElementById("add-name");
+    var form3name=document.getElementById("form3-name");
+    function checkname(data){
+        var str='<option></option>';
+        for(var i=0;i<data.length;i++)
+        {
+            str+='<option>'+data[i].title+'</option>'
+        }
+        addname.innerHTML=str;
+        form3name.innerHTML=str;
+    }
+    //生成24小时下拉菜单
+    var addhour=document.getElementById("add-hour");
+    function checkhour()
+    {
+        var str='';
+        for(var i=0;i<=23;i++)
+        {
+            str+='<option>'+i+'时</option>';
+        }
+        addhour.innerHTML=str;
+    }
+    checkhour();
+    //生成60分钟下拉菜单
+    var addminute=document.getElementById("add-minute");
+    function checkminute()
+    {
+        var str='';
+        for(var i=0;i<=59;i++)
+        {
+            str+='<option>'+i+'分</option>';
+        }
+        addminute.innerHTML=str;
+    }
+    checkminute();
+
+    var hall1=document.getElementById("add-room-ID");
+    var hall4=document.getElementById("form4-ID")
+    function checkroom(data){
+        var str='<option></option>';
+        for(var i=0;i<data.length;i++)
+        {
+            str+='<option>'+data[i].id+'</option>'
+        }
+        hall1.innerHTML=str;
+        hall4.innerHTML=str;
+    }
+
+    var intend=document.getElementById("customers");
+    function createPlan(data,item,spend_time){
+        var str='<tr id="title">' +
+            '<th id="title-id">ID</th>'+
+            '<th id="title-room">演出厅</th>' +
+            '<th id="title-name">影片名称</th>'+
+            '<th id="title-time">上映时间</th>'+
+            '<th id="title-long-time">时长</th>'+
+            '<th id="title-price">票价</th>'+
+            '</tr>';
+        for(var j=0,temp;temp=data[j++];) {
+            if (temp.movie_title === item) {
+                console.log(temp.plan_id);
+                if (j% 2 === 0) {
+                    str += '<tr class="dub">' +
+                        '<td>' + temp.plan_id   +'</td>'+
+                        '<td>' + temp.room_id + '</td>' +
+                        '<td>' + temp.movie_title + '</td>' +
+                        '<td>' + temp.begin_time + '</td>' +
+                        '<td>'+spend_time+'</td>'+
+                        '<td>' + temp.price + ' RMB</td>' +
+                        '</tr>'
+                }
+                else{
+                    str += '<tr class="odd">' +
+                        '<td>' + temp.plan_id+ '</td>' +
+                        '<td>' + temp.room_id+'</td>'+
+                        '<td>' + temp.movie_title + '</td>' +
+                        '<td>' + temp.begin_time + '</td>' +
+                        '<td>'+spend_time+'</td>'+
+                        '<td>' + temp.price + ' RMB</td>' +
+                        '</tr>'
+                }
+            }
+        }
+        intend.innerHTML=str;
+    }
+
+    function getPlan(str,spend_time){
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("GET","ListPlanServlet",true);    //url未写
+        xmlhttp.send(null);
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState==4&&xmlhttp.status==200){
+                console.log(xmlhttp.responseText);
+                var data=JSON.parse(xmlhttp.responseText);
+                console.log(data);
+                createPlan(data,str,spend_time);
+            }
+        }
+    }
+
+
+    function getMovie() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "ListMovieServlet", true);    //url未写
+        xmlhttp.send(null);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                console.log(xmlhttp.responseText);
+                var data = JSON.parse(xmlhttp.responseText);//data包含所有电影的信息
+                console.log(data);
+
+                createName(data);//修改
+                checkname(data);//修改
+                var group=document.querySelectorAll("#name");
+                console.log(group);
+                console.log(group.length);
+                // return data;
+                //var button=document.getElementById("button-all");
+                for(var i=0;i<group.length;i++)
+                {
+                    group[i].value = i;
+                    console.log(i);
+                    console.log(data[0].title,data[0].spend_time);
+                    getPlan(data[0].title,data[0].spend_time);
+                    add.onclick=function(){
+                            form1.style.display="block";
+                            //document.getElementById("add-name").value=data[flag+1];
+                        };
+                        back1.onclick=function(){
+                            form1.style.display="none";
+                            document.getElementById("add-room-ID").value=null;
+                            document.getElementById("add-year").value=null;
+                            document.getElementById("add-hour").value=null;
+                            document.getElementById("add-minute").value=null;
+                            document.getElementById("add-name").value=null;
+                            document.getElementById("price").value=null;
+                        };
+                        sel.onclick = function () {
+                            btnID.style.display="block";
+                            btnname.style.display="block";
+                            btnID.onclick=function () {
+                                form4.style.display="block";
+                                btnID.style.display="none";
+                                btnname.style.display="none";
+                            };
+                            btnname.onclick=function () {
+                                form3.style.display="block";
+                                btnname.style.display="none";
+                                btnID.style.display="none";
+                            };
+                            //document.getElementById("form3-name").value=data[flag+1];
+                        };
+
+                        back3.onclick=function () {
+                            form3.style.display="none";
+                            document.getElementById("form3-name").value=null;
+                        };
+                        back4.onclick=function () {
+                            form4.style.display="none";
+                            document.getElementById("form4-name").value=null;
+                        };
+                        del.onclick=function () {
+                            form2.style.display="block";
+                        };
+                        back2.onclick=function () {
+                            form2.style.display="none";
+                            document.getElementById("form2-ID").value=null;
+                        };
+                    group[i].onclick=function(){
+                        var flag=this.value;
+                        console.log(flag);
+                        //button.style.left = "0";
+                        console.log(data[flag].title);//修改
+                        //输出列表
+                        getPlan(data[flag].title, data[flag].spend_time);
+                        console.log(data[0]);
+                       /* add.onclick=function(){
+                            form1.style.display="block";
+                            //document.getElementById("add-name").value=data[flag+1];
+                        };*/
+                     /*   back1.onclick=function(){
+                            form1.style.display="none";
+                            document.getElementById("add-room-ID").value=null;
+                            document.getElementById("add-year").value=null;
+                            document.getElementById("add-hour").value=null;
+                            document.getElementById("add-minute").value=null;
+                            document.getElementById("add-name").value=null;
+                            document.getElementById("price").value=null;
+                        };
+                        sel.onclick = function () {
+                            btnID.style.display="block";
+                            btnname.style.display="block";
+                            btnID.onclick=function () {
+                                form4.style.display="block";
+                                btnID.style.display="none";
+                                btnname.style.display="none";
+                            };
+                            btnname.onclick=function () {
+                                form3.style.display="block";
+                                btnname.style.display="none";
+                                btnID.style.display="none";
+                            };
+                            //document.getElementById("form3-name").value=data[flag+1];
+                        };
+
+                        back3.onclick=function () {
+                            form3.style.display="none";
+                            document.getElementById("form3-name").value=null;
+                        };
+                        back4.onclick=function () {
+                            form4.style.display="none";
+                            document.getElementById("form4-name").value=null;
+                        };
+                        del.onclick=function () {
+                            form2.style.display="block";
+                        };
+                        back2.onclick=function () {
+                            form2.style.display="none";
+                            document.getElementById("form2-ID").value=null;
+                        };*/
+                    };
+                }
+            }
+        };
+
+    }
+
+    var manymovie=getMovie();
+
+    //获取全部演播厅信息
+    //自动生成下拉菜单
+
+
+
+    function getRoomList() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","ListRoomServlet",true);//url未写
+        xmlhttp.send(null);
+        xmlhttp.onreadystatechange = function () {
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                // console.log(xmlhttp.responseText);
+                var data = JSON.parse(xmlhttp.responseText);
+                console.log(data);
+                checkroom(data);//修改
+            }
+        }
+    }
+    getRoomList();
+    //返回主界面
+    back.onclick=function () {
+        window.location.href="main.html";
+    };
+</script>
+<script type="text/javascript">
+    var intend=document.getElementById("result");
+    function playshow(data){
+        var str='<tr id="title">' +
+            '<th id="title-id">ID</th>'+
+            '<th id="title-room">演出厅</th>' +
+            '<th id="title-name">影片名称</th>'+
+            '<th id="title-time">上映时间</th>'+
+            '<th id="title-price">票价</th>'+
+            '</tr>';
+        for(var j=0,temp;temp=data[j++];) {
+            console.log(temp.plan_id);
+            if (j% 2 === 0) {
+                str += '<tr class="dub">' +
+                    '<td>' + temp.plan_id   +'</td>'+
+                    '<td>' + temp.room_id + '</td>' +
+                    '<td>' + temp.movie_title + '</td>' +
+                    '<td>' + temp.begin_time + '</td>' +
+                    '<td>' + temp.price + ' RMB</td>' +
+                    '</tr>'
+            }
+            else{
+                str += '<tr class="odd">' +
+                    '<td>' + temp.plan_id+ '</td>' +
+                    '<td>' + temp.room_id+'</td>'+
+                    '<td>' + temp.movie_title + '</td>' +
+                    '<td>' + temp.begin_time + '</td>' +
+                    '<td>' + temp.price + ' RMB</td>' +
+                    '</tr>'
+            }
+
+        }
+        intend.innerHTML=str;
+    }
+    /*  与后台交互模块*/
+    var append=document.getElementById("form1-submit");
+    var cut=document.getElementById("form2-submit");
+    var demandname=document.getElementById("form3-submit");
+    var demandID=document.getElementById("form4-submit");
+
+    //添加功能
+    append.onclick=function () {
+        var xmlhttp= new XMLHttpRequest();
+        xmlhttp.open("POST"," SetPlanServlet",true);/* url未写*/
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send("room-ID=" + document.getElementById("add-room-ID").value+
+            "&name="+ document.getElementById("add-name").value+
+            "&time="+ document.getElementById("add-year").value+
+            "&hour="+document.getElementById("add-hour").value+
+            "&minute="+document.getElementById("add-minute").value+
+            "&price="+ document.getElementById("price").value);
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                var p=eval("(" + xmlhttp.responseText + ")");
+                if(p==true){
+                    alert("添加成功！");
+                    form1.style.opacity="0";
+                    window.location.href="计划管理.html";
+                }else{
+                    alert("添加失败!");
+                }
+            }
+        }
+    };
+
+    //删除功能
+    cut.onclick=function () {
+        var xmlhttp = new  XMLHttpRequest();
+        /* url未写*/
+        xmlhttp.open("POST"," DeletePlanServlet ",true);/* url未写*/
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send("ID=" + document.getElementById("form2-ID").value);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var p = eval("(" + xmlhttp.responseText + ")");
+                if (p == true) {
+                    alert("删除成功");
+                    form2.style.display= "none";
+                    window.location.href = "计划管理.html";
+                } else {
+                    alert("删除失败!");
+                }
+            }
+        }
+    };
+
+    // 查询功能
+    demandname.onclick=function () {
+        var xmlhttp= new XMLHttpRequest();
+        xmlhttp.open("POST","SearchPlanByMovieServlet",true);/* url未写*/
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send("title="+document.getElementById("form3-name").value );
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                var list = JSON.parse(xmlhttp.responseText);
+                console.log(list);
+                if(list==null){
+                    alert("该计划不存在！");
+                }
+                else{
+                    form3.style.display="none";
+                    intend.style.display="block";
+                    playshow(list);
+                    intend.onclick=function () {
+                        intend.style.display="none";
+                    }
+                }
+            }
+        }
+    } ;
+
+    demandID.onclick=function () {
+        var xmlhttp= new XMLHttpRequest();
+        xmlhttp.open("POST","SearchPlanByRoomServlet",true);/* url未写*/
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send("ID="+document.getElementById("form4-ID").value );
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                var list = JSON.parse(xmlhttp.responseText);
+                console.log(list);
+                if(list==null){
+                    alert("该计划不存在！");
+                }
+                else{
+                    form4.style.display="none";
+                    intend.style.display="block";
+                    playshow(list);
+                    intend.onclick=function () {
+                        intend.style.display="none";
+                    }
+                }
+            }
+        }
+    } ;
+</script>
+</body>
+</html>

@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>剧目管理</title>
+
+    <style>
+        * { margin: 0; padding: 0; }
+        html { height: 100%; }
+        body
+        {
+            height: 100%;
+            background: #ffffff url(images/depp.jpg)  no-repeat;
+            background-size: 1980px 1080px;
+           
+        }
+        button,input,a{
+            outline:none;
+        }
+
+        .far #right h1{
+            position: absolute;
+            left:40px;
+            top:190px;
+            font-family:微软雅黑;
+            font-size: 50px;
+            color: lightblue;
+            transition: 1s;
+            text-shadow:2px 2px 4px #000000;
+        }
+        .far #right  h1:hover{
+            transform :rotateY(360deg);
+            font-size:55px;
+            cursor: pointer;
+        }
+
+
+        #div1 input
+        {
+            margin-top:5px;
+            width:300px;
+			height:35px;
+            border-radius:15px;
+            display: block;
+            text-align:left;
+        }
+
+        #div1 textarea{
+            width:300px;
+            height:150px;
+            outline:none;
+            border:none;
+            text-align: center;
+            font-size:20px;
+            border-radius: 15px;
+            margin-bottom:10px;
+            display: block;
+            text-align: left;
+        }
+
+
+         #handup,#handup2,#handup3,#handup4,#handup5,#handup6 {
+             position: absolute;
+             width:70px;
+             height: 30px;
+             left:250px;
+             top:550px;
+             text-decoration: none;
+             cursor: pointer;
+             color: #a3770d;
+             background-color: #fff;
+             border:0;
+             border-radius:15px;
+         }
+         #back,#back2,#back3,#back4 ,#back5,#back6{
+            position: absolute;
+            width:70px;
+            height: 30px;
+            left:420px;
+            top:550px;
+            text-decoration: none;
+            cursor: pointer;
+            color: #a3770d;
+            background-color: #fff;
+            border:0;
+            border-radius:15px;
+        }
+
+        #div2 input,#div3 input,#div3 input,#div4 input{
+            position: absolute;
+            top: 150px;
+            left: 60px;
+            display:block;
+            text-align:left;
+            word-wrap: break-word;
+            width:300px;
+            height:40px;
+            font-size:20px;
+            margin-bottom: 10px;
+            border-radius:15px;
+        }
+
+        #button-add {
+            position: absolute;
+            left:0px;
+            top: 80px;
+            width: 150px;
+            height: 50px;
+            border: 0;
+            outline: none;
+            background-color: rgba(163, 119, 13, 0.89);
+            text-decoration: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 20px;
+            font-family:微软雅黑;
+            box-shadow: 0 0 10px gold;
+            border-radius: 5px;
+
+
+        }
+        #button-del {
+            position: absolute;
+            left: 0px;
+            top: 160px;
+            width: 150px;
+            height: 50px;
+            outline: none;
+            background-color: rgba(163, 119, 13, 0.89);
+            text-decoration: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 20px;
+            font-family:微软雅黑;
+            border: none;
+            box-shadow: 0 0 10px gold;
+            border-radius: 5px;
+        }
+
+        #button-up {
+            position: absolute;
+            left: 0px;
+            top: 240px;
+            width: 150px;
+            height: 50px;
+            border: 0;
+            outline: none;
+            background-color: rgba(163, 119, 13, 0.89);
+            text-decoration: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 20px;
+            font-family:微软雅黑;
+            box-shadow: 0 0 10px gold;
+            border-radius: 5px;
+        }
+        #button-sel {
+            position: absolute;
+            left: 0px;
+            top: 320px;
+            width: 150px;
+            height: 50px;
+            border: 0;
+            outline: none;
+            background-color: rgba(163, 119, 13, 0.89);
+            text-decoration: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 20px;
+            font-family:微软雅黑;
+            box-shadow: 0 0 10px gold;
+            border-radius: 5px;
+        }
+
+        #button-add:hover,#button-sel:hover,#button-up:hover,#button-del:hover,#button-back a:hover{
+            background-color: #d0a700;
+
+        }
+        .delbox,.addbox,.changebox ,.searchbox,.searchbox2,.searchbox3{
+            display: none;
+            z-index: 3;
+            position: absolute;
+            left: 350px;
+            top: 100px;
+            width:800px;
+            height:600px;
+            border-radius: 15px;
+            background-color: rgba(111, 110, 109, 0.76);
+        }
+    
+
+
+        .down {
+            position: absolute;
+            left:1770px;
+            top:350px;
+            float: right;
+            width: 130px;
+            height: 40px;
+            background: linear-gradient(to bottom, #a3770d 0%, #d0a700 100%);
+            border: none;
+            border-radius: 5px;
+            border-bottom: 4px solid #a3770d;
+            color: #fbfbfb;
+            font-weight: 600;
+            font-family: 'Open Sans', sans-serif;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+            font-size: 15px;
+            text-align: left;
+            text-indent: 5px;
+            box-shadow: 0px 3px 0px 0px rgba(0,0,0,.2);
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+
+        .down:after {
+
+            content: "";
+            width: 0;
+            height: 0;
+            display: block;
+            border-top: 20px solid #9e6323;
+            border-bottom: 20px solid #9e6323;
+            border-left: 16px solid transparent;
+            border-right: 20px solid #9e6323;
+            position: absolute;
+            opacity: 0.6;
+            right: 0;
+            top: 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Button pointing left */
+
+        .up {
+            position: absolute;
+            top:350px;
+            left:20px;
+            float: left;
+            width: 130px;
+            height: 40px;
+            background: linear-gradient(to bottom, #a3770d 0%, #d0a700 100%);
+            border: none;
+            border-radius: 5px;
+            border-bottom: 4px solid #a3770d;
+            color: #fbfbfb;
+            font-weight: 600;
+            font-family: 'Open Sans', sans-serif;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+            font-size: 15px;
+            text-indent: 5px;
+            box-shadow: 0px 3px 0px 0px rgba(0,0,0,.2);
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            text-align: right;
+            padding-right: 12px;
+            box-sizing: border-box;
+        }
+
+
+        .up:after {
+            content: "";
+            width: 0;
+            height: 0;
+            display: block;
+            border-top: 20px solid #9e6323;
+            border-bottom: 20px solid #9e6323;
+            border-right: 16px solid transparent;
+            border-left: 20px solid #9e6323;
+            position: absolute;
+            opacity: 0.6;
+            left: 0;
+            top: 0;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .photo {
+            position: relative;
+            left: 500px;
+            top: 30px;
+            width:270px;
+            height:381px;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88, 0.93);
+        }
+        .movieview {
+            float: left;
+            margin-left: 110px;
+            width:270px;
+            height:381px;
+        }
+        .photo2 {
+            position: absolute;
+            width:270px;
+            height:381px;
+            cursor: pointer;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88, 0.93);
+            z-index: 1;
+        }
+        .photo2-word {
+            z-index: 2;
+            display: none;
+            position: absolute;
+            width:270px;
+            height:381px;
+            cursor: pointer;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88,0.6);
+            transition: 1s;
+        }
+
+        .photo2-word p {
+            margin-top: 10px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+
+        .photo3-word p {
+            margin-top: 10px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .photo4 {
+            position: absolute;
+            left: 1000px;
+            top: 30px;
+            width:270px;
+            height:381px;
+            cursor: pointer;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88, 0.93);
+            background-image: url("Spider/images/碎梦汇编 Glossary of Broken Dreams.jpg");
+        }
+        .photo4-word {
+            position: absolute;
+            left: 1000px;
+            top: 30px;
+            width:270px;
+            height:381px;
+            display: none;
+            cursor: pointer;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88, 0.6);
+        }
+        .photo4-word p {
+            margin-top: 10px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .photo5 {
+            position: absolute;
+            left: 1400px;
+            top: 30px;
+            width:270px;
+            height:381px;
+            cursor: pointer;
+            border-radius: 25px;
+            background-color: rgba(86, 81, 88, 0.93);
+            background-image: url("Spider/images/古墓丽影：源起之战 Tomb Raider.jpg");
+        }
+
+        .photo5-word p {
+            margin-top: 10px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+       #preview ,.img,img {
+            height: 381px;
+            width: 270px;
+            border-radius: 25px;
+        }
+
+        #add1 {
+            position: absolute;
+            left:125px ;
+            top:140px;
+            border: none;
+            border-radius: 5px;
+        }
+        .file {
+            position: absolute;
+            left: 550px;
+            top: 440px;
+            width:140px;
+            height: 25px;
+
+            display: inline-block;
+            background: rgba(255, 85, 0, 0.65);
+            font-family: 微软雅黑;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: rgba(253, 248, 255, 0.85);
+            text-decoration: none;
+            text-indent: 0;
+            text-align: center;
+            z-index: 3;
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: chocolate;
+            color: white;
+            text-decoration: none;
+        }
+        #moviename,#moviename2 {
+            float: left;
+            position: absolute;
+            left:5px;
+            top:20px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+        #moviename0 ,#moviename1{
+            float: left;
+            position: absolute;
+            left:260px;
+            top:150px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        #moviedirector ,#moviedirector2{
+            float: left;
+            position: absolute;
+            left:5px;
+            top:80px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        #movieactor ,#movieactor2{
+            float: left;
+            position: absolute;
+            left:5px;
+            top:140px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        #moviedate ,#moviedate2 {
+            float: left;
+            position: absolute;
+            left:5px;
+            top:200px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        #movietime ,#movietime2{
+            float: left;
+            position: absolute;
+            left:5px;
+            top:260px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        #movieurl ,#movieurl2{
+            float: left;
+            position: absolute;
+            left:5px;
+            top:320px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        .addbox ::-webkit-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .addbox ::-moz-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .addbox::-moz-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .addbox :-ms-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .delbox ::-webkit-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+        .changebox ::-webkit-input-placeholder {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #fff;}
+
+        .wrap {
+            position: absolute;
+            top:400px;
+            width: 1920px;
+            height: 430px;
+            box-shadow: 0 0 30px rgba(64, 59, 66, 0.71);
+        }
+        .wrapin {
+            width: 1620px;
+            height: 430px;
+            margin-left: 150px;
+        }
+#moviecountry ,#moviecountry2{
+            float: right;
+            position: absolute;
+            left:250px;
+            top:20px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+        #moviescore ,#moviescore2{
+            float: right;
+            position: absolute;
+            left:250px;
+            top:80px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;
+        }
+        #movietype ,#movietype2{
+            float: right;
+            position: absolute;
+            left:250px;
+            top:140px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;
+        }
+        #movielanguage ,#movielanguage2{
+            float: right;
+            position: absolute;
+            left:250px;
+            top:200px;
+            width: 150px; height: 40px;
+            padding-left: 70px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;
+        }
+        #moviething,#moviething2 {
+            float: right;
+            position: absolute;
+            left:250px;
+            top:260px;
+            width: 200px; height: 100px;
+            padding-left: 20px;
+            border: 1px solid #fffefd;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;
+        }
+        .moviebtn {
+        	margin-top:10px;
+        	margin-left:10px;
+            width:200px;
+            height: 40px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-decoration: none;
+            cursor: pointer;
+            color: #a3770d;
+            background-color: #fff;
+            border:0;
+            border-radius:15px;
+        }
+        #movieactor3{
+        	color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px;
+            height: 40px;
+            left:5px;
+            top:140px;
+        }
+
+        #moviecountry3{
+        	color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:250px;
+            top:20px;
+        }
+        #moviedate3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:5px;
+            top:200px;
+        }
+        #moviedirector3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:5px;
+            top:80px;
+        }
+        #movielanguage3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:250px;
+            top:200px;
+        }
+        #moviename3{
+        	color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:5px;
+            top:20px;
+        }
+        #moviescore3{
+        	color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:250px;
+            top:80px;
+        }
+        #movietime3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:5px;
+            top:260px;
+        }
+        #movieurl3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:5px;
+            top:320px;
+        }
+        #moviething3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-radius: 15px;
+            width: 300px; height: 200px;
+            left:250px;
+            top:260px;
+        }
+        #movietype3{
+            color: #fff;
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border-radius: 15px;
+            width: 150px; height: 40px;
+            left:250px;
+            top:140px;
+        }
+
+		  @media screen and (max-width: 1200px) {
+              * {
+                  box-sizing: border-box;
+              }
+
+              .far {
+                  position: static;
+                  width: auto;
+                  height: auto;
+                  border: none;
+                  margin: 0 30px ;
+              }
+              .far header{
+                  position: static;
+                  width: auto;
+                  height: auto;
+                  border: none;
+                  margin: 0 30px ;
+              }
+
+          }
+
+    </style>
+    <script src="jquery.min.js"></script>
+    <script>
+
+    </script>
+    </head>
+<body>
+    <button id="button-add" >添加影片</button>
+    <button id="button-del">删除影片</button>
+    <button id="button-up">修改影片</button>
+    <button id="button-sel">查找影片</button>
+    <div class="addbox" id="addbox">
+        <div class="word">
+        <input id="moviename" type="text" autocomplete="off" placeholder="影片名称">
+        <input id="moviedirector" type="text" autocomplete="off" placeholder="导演">
+        <input id="movieactor" type="text" autocomplete="off" placeholder="主演">
+        <input id="moviedate" type="text" autocomplete="off" placeholder="上映时间">
+        <input id="movietime" type="text" autocomplete="off" placeholder="影片时长">
+        <input id="moviecountry" type="text" autocomplete="off" placeholder="国家">
+            <input id="moviescore" type="text" autocomplete="off" placeholder="评分">
+            <input id="movietype" type="text" autocomplete="off" placeholder="类型">
+            <input id="movielanguage" type="text" autocomplete="off" placeholder="语言">
+            <textarea id="moviething" placeholder="影片简介"></textarea>
+
+        <input id="movieurl" type="text" autocomplete="off" placeholder="影片预览图地址">
+        </div>
+        <div class="photo">
+            <div id="preview"></div>
+        </div>
+        <a class="file">
+            <input type="file" onchange="preview(this)">
+            添加影片预览图
+        </a>
+        <button id="handup">提交</button>
+        <button id="back">返回</button>
+    </div>
+    <div class="delbox" id="delbox">
+        <input id="moviename0" type="text" autocomplete="off" placeholder="影片名称">
+        <button id="handup2">提交</button>
+        <button id="back2">返回</button>
+    </div>
+    <div class="changebox" id="changebox">
+        <input id="moviename2" type="text" autocomplete="off" placeholder="影片名称">
+        <input id="moviedirector2" type="text" autocomplete="off" placeholder="导演">
+        <input id="movieactor2" type="text" autocomplete="off" placeholder="主演">
+        <input id="moviedate2" type="text" autocomplete="off" placeholder="上映时间">
+        <input id="movietime2" type="text" autocomplete="off" placeholder="影片时长">   
+        <input id="movieurl2" type="text" autocomplete="off" placeholder="影片预览图地址">
+        <input id="moviecountry2" type="text" autocomplete="off" placeholder="国家">
+        <input id="moviescore2" type="text" autocomplete="off" placeholder="评分">
+        <input id="movietype2" type="text" autocomplete="off" placeholder="类型">
+        <input id="movielanguage2" type="text" autocomplete="off" placeholder="语言">
+        <textarea id="moviething2" placeholder="影片简介"></textarea>
+        <button id="handup3">提交</button>
+        <button id="back3">返回</button>
+    </div>
+    <div class="searchbox" id="searchbox">
+        <input id="moviename1" type="text" autocomplete="off" placeholder="影片名称">
+        <button id="handup4">提交</button>
+        <button id="back4">返回</button>
+    </div>
+    <div class="searchbox2" id="searchbox2">
+        <div id="moviebtns">
+            
+        </div>
+        <button id="back5">返回</button>
+    </div>
+    <div class="searchbox3" id="searchbox3">
+        <div id="searchmoviepage">
+            <p id="moviename3">影片名称</p>
+            <p id="moviedirector3">导演</p>
+            <p id="movieactor3">主演</p>
+            <p id="moviedate3">上映时间</p>
+            <p id="movietime3">影片时长</p>
+            <p id="moviecountry3">影片预览图地址</p>
+            <p id="movieurl3">国家</p>
+            <p id="moviescore3">评分</p>
+            <p id="movietype3">类型</p>
+            <p id="movielanguage3">语言</p>
+            <p id="moviething3">影片简介</p>
+        </div>
+        <button id="back6">返回</button>
+    </div>
+    <div class="wrap" id="wrap">
+        <button class="up" id="up">up</button>
+        <button class="down" id="down">down</button>
+            <div class="wrapin" id="wrapin">
+
+            </div>
+        </div>
+
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript">
+		
+            $("#button-add").click(function () {
+                $("#addbox").show(500);
+            });
+            $("#button-del").click(function () {
+                $("#delbox").show(500);
+            });
+            $("#button-up").click(function () {
+                $("#changebox").show(500);
+            });
+            $("#button-sel").click(function () {
+                $("#searchbox").show(500);
+            });
+            $("#back").click(function () {
+                $("#addbox").hide(500);
+            });
+            $("#back2").click(function () {
+                $("#delbox").hide(500);
+            });
+            $("#back3").click(function () {
+                $("#changebox").hide(500);
+            });
+            $("#back4").click(function () {
+                $("#searchbox").hide(500);
+            });
+            $("#back5").click(function () {
+                $("#searchbox2").hide(500);
+            });
+            $("#back6").click(function () {
+                $("#searchbox3").hide(500);
+            });
+
+
+            function preview(file) {
+            var preview = document.getElementById('preview');
+            if (file.files && file.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(evt) {
+                    alert(evt.target.result);
+                    preview.innerHTML = '<img src="' + evt.target.result + '" />';
+                }
+                reader.readAsDataURL(file.files[0]);
+            }
+        }
+   
+        /*添加交互*/
+        var btn1 = document.getElementById("handup");
+        btn1.onclick = function () {
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.open("POST","AddMovieServlet",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send("title="+document.getElementById("moviename").value+
+           			"&director="+document.getElementById("moviedirector").value+
+            		"&main_actor="+document.getElementById("movieactor").value +
+                    "&time="+document.getElementById("moviedate").value+
+                    "&spend_time="+document.getElementById("movietime").value+
+                    "&country="+document.getElementById("moviecountry").value+
+                    "&lan="+document.getElementById("movielanguage").value+
+                    "&type="+document.getElementById("movietype").value+
+                    "&score="+document.getElementById("moviescore").value+
+                    "&img_url="+document.getElementById("movieurl").value+
+                    "&introduction="+document.getElementById("moviething").value);
+                    console.log(document.getElementById("moviename").value);
+            xmlhttp.onreadystatechange = function () {
+                if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                    var p = eval("("+xmlhttp.responseText+")")
+                    if(p == true){
+                        alert("添加成功");
+                    }else{
+                        alert("添加失败");
+                    }
+                }
+            }
+        }
+        /*删除交互*/
+        var btn2 = document.getElementById("handup2");
+        btn2.onclick = function () {
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.open("POST","DeleteMovieServlet",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send("title="+document.getElementById("moviename0").value);
+            xmlhttp.onreadystatechange = function () {
+                if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                    var p = eval("("+xmlhttp.responseText+")")
+                    if(p == true){
+                        alert(xmlhttp.responseText);
+                    }else{
+                        alert("删除失败");
+                    }
+                }
+            }
+        }
+
+        /*修改交互*/
+       /*  var btn3 = document.getElementById("handup3");
+           btn1.onclick = function () {
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.open("POST","",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send("moviename="+document.getElementById("moviename2").value+"&moviedirector"+document.getElementById("moviedirector2").value+"&movieactor"+document.getElementById("movieactor2").value +
+                    "&moviedate"+document.getElementById("moviedate2").value+"&movietime"+document.getElementById("movietime2"));
+            xmlhttp.onreadystatechange = function () {
+                if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                    var p = eval("("+xmlhttp.responseText+")")
+                    if(p == true){
+                        alert("修改成功");
+                    }else{
+                        alert("修改失败");
+                    }
+                }
+            }
+        } */
+       /*搜索交互*/
+            var btn4 = document.getElementById("handup4");
+            btn4.onclick = function () {
+                var xmlhttp= new XMLHttpRequest();
+                xmlhttp.open("POST","SearchMovieServlet",true);
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlhttp.send("title="+document.getElementById("moviename1").value);
+                xmlhttp.onreadystatechange = function () {
+                    if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                        var movienamelist = JSON.parse(xmlhttp.responseText);
+                        Moviebtns(movienamelist);
+                         var searchbox = document.getElementById("searchbox");
+                		searchbox.style.display = "none";	
+                        Searchclick(movienamelist);
+                    }
+                }
+            }
+            function Moviebtns(movienamelist) {
+            	var searchbox2 = document.getElementById("searchbox2");
+                searchbox2.style.display = "block";
+                var moviebtns = document.getElementById("moviebtns");
+                var str='';
+                for(var i = 0,ml;ml=movienamelist[i];i++) {
+                    str+='<button class="moviebtn">'+movienamelist[i].title+'</button>';
+                }
+                moviebtns.innerHTML = str;
+                var searchbox2 = document.getElementById("searchbox2");
+                searchbox2.style.display = "block";
+            }
+            function Searchclick(movienamelist) {
+                var btns = document.getElementsByClassName("moviebtn");
+                console.log(btns.length);
+                for(var i=0,len=movienamelist.length;i<len;i++){
+                btns[i].index = i;
+                    btns[i].onclick = function () {
+                    	num=this.index
+                    	console.log(movienamelist);
+                    	console.log(num);
+                        SearchPage(movienamelist,num);
+                         var searchbox2 = document.getElementById("searchbox2");
+                			searchbox2.style.display = "none";
+                    }
+                }
+            }
+            function SearchPage(movienamelist,i) {
+                var searchmoviepage = document.getElementById("searchmoviepage");
+                var str='';
+                    str+=
+                        ' <div id="searchmoviepage">' +
+                        '            <p id="moviename3">影片名称:'+movienamelist[i].title+'</p>' +
+                        '            <p id="moviedirector3">导演:'+movienamelist[i].director+'</p>' +
+                        '            <p id="movieactor3">主演:'+movienamelist[i].main_actor+'</p>' +
+                        '            <p id="moviedate3">上映时间:'+movienamelist[i].time+'</p>' +
+                        '            <p id="movietime3">影片时长:'+movienamelist[i].spend_time+'</p>' +
+                        '            <p id="movieurl3">国家:'+movienamelist[i].country+'</p>' +
+                        '            <p id="moviescore3">评分:'+movienamelist[i].score+'</p>' +
+                        '            <p id="movietype3">类型:'+movienamelist[i].type+'</p>' +
+                        '            <p id="movielanguage3">语言:'+movienamelist[i].lan+'</p>' +
+                        '            <p id="moviething3">影片简介:'+movienamelist[i].introduction+'</p>' +
+                        '        </div>'
+                        ;
+
+                searchmoviepage.innerHTML = str;
+                var searchbox3 = document.getElementById("searchbox3");
+                searchbox3.style.display = "block";
+
+            }
+        /*分页*/
+        var curPage = 1;
+        var up = document.getElementById("up");
+        var down = document.getElementById("down");
+    
+        var xmlhttpfis= new XMLHttpRequest();
+        xmlhttpfis.open("POST","PageServlet",true);
+        xmlhttpfis.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttpfis.send("pagenum="+curPage);
+        
+        xmlhttpfis.onreadystatechange = function () {
+            if(xmlhttpfis.readyState == 4&&xmlhttpfis.status == 200){
+                var movielist = JSON.parse(xmlhttpfis.responseText);
+                console.log(movielist);
+                MoviePage(movielist);
+                catoon();
+            }
+        }
+       up.onclick = function () {
+            if(curPage>1) {
+                curPage = curPage - 1;
+            }
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.open("POST","PageServlet",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send("pagenum="+curPage);
+            xmlhttp.onreadystatechange = function () {
+                if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                    var movielist = JSON.parse(xmlhttp.responseText);
+                    MoviePage(movielist);
+                    catoon();
+                }
+            }
+        }
+        down.onclick = function () {
+            curPage = curPage + 1;
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.open("POST","PageServlet",true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.send("pagenum="+curPage);
+            xmlhttp.onreadystatechange = function () {
+                if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                    var movielist = JSON.parse(xmlhttp.responseText);
+                    MoviePage(movielist);
+                    catoon();
+                }
+            }
+        }
+       
+        function MoviePage(movielist) {
+            var wrapin = document.getElementById("wrapin");
+            var str='';
+            for(var i = 0,ml;ml=movielist[i++];) {
+                str+='<div class="movieview">'+
+                        '<img class="photo2" id="photo5" src="'+ml.img_url+'">'+
+                        '<div class="photo2-word" id="photo5-word">'+
+                        '<p>电影：<span>'+ml.title+'</span></p>'+
+                        '<p>导演：<span>'+ml.director+'</span></p>'+
+                        '<p>主演：<span>'+ml.main_actor+'</span></p>'+
+                        '<p>上映时间：<span>'+ml.time+'</span></p>'+
+                        '<p>时长：<span>'+ml.spend_time+'</span></p>'+
+                        '</div>'+
+                        '</div>';
+            }
+            wrapin.innerHTML = str;
+        }
+
+        /*触摸动画*/
+        function catoon() {
+
+        var wrapin = document.getElementById("wrapin");
+        var moviev = wrapin.getElementsByClassName("movieview");
+        var i,num=0,len;
+
+        for(i = 0,len = moviev.length;i < len;i++) {
+            moviev[i].index = i;
+
+            moviev[i].onmouseenter = function() {
+                num = this.index;
+                var moviet = moviev[num].getElementsByClassName("photo2-word")[0];
+                moviet.style.display = "block";
+            }
+        }
+        for(i = 0,len = moviev.length;i < len;i++) {
+            moviev[i].index = i;
+            moviev[i].onmouseleave = function() {
+                num = this.index;
+                var moviet = moviev[num].getElementsByClassName("photo2-word")[0];
+                moviet.style.display = "none";
+            }
+        }
+        }
+    </script>
+</body>
+</html>

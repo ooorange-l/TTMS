@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>演出厅管理</title>
+    <link rel="stylesheet" href="css/RoomArrangement.css"  type="text/css"/>
+    </head>
+<body>
+
+
+    <div id="banner">
+        <button id="left-move"  type="button"><<</button>
+        <button id="right-move" type="button">>></button>
+        <div id="all-button">
+           <button id="button-add" type="button" ><a>添加演出厅</a></button>
+           <button id="button-up" type="button"><a>修改演出厅</a></button>
+           <button id="button-del"  type="button"><a>删除演出厅</a></button>
+           <button id="button-back" type="button"  ><a href="主界面.html" target="_parent">返回主界面</a></button>
+     </div>
+        <div id="right">
+            <ul></ul>
+        </div>
+        <div id="form1" >
+               <input id="form1-ID" type="text" placeholder="Room-ID">
+               <input id="form1-rows" type="text" placeholder="rows">
+               <input id="form1-cols" type="text" placeholder="cols">
+               <textarea  id="form1-word" placeholder="简介"></textarea>
+               <input id="form1-submit" type="submit" value="提交">
+               <input id="form1-reset" type="reset" value="返回">
+        </div>
+         <div  id="form2">
+               <input id ="form2-ID" type="text" placeholder="Room-ID">
+               <input id="form2-submit" type="submit"  value="确认">
+               <input id="form2-reset" type="reset" value="返回">
+         </div>
+         <div id="form3" >
+             <input id="form3-ID" type="text" placeholder="Room-ID">
+             <input id="form3-rows" type="text" placeholder="rows">
+             <input id="form3-cols" type="text" placeholder="cols">
+             <textarea id="form3-word"  placeholder="简介"></textarea>
+             <input id="form3-submit" type="submit" value="确认" >
+             <input id="form3-reset" type="reset" value="返回" >
+         </div >
+        <div id="form4" >
+             <input id="form4-ID" type="text" placeholder="Room-ID">
+             <input id="form4-submit" type="submit" value="查询" >
+
+         </div>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(" #button-add").click(function () {
+                $("#form1").show(500);
+                $("#right").hide(500);
+                $("#form2").hide(500);
+                $("#form3").hide(500);
+                 $("#form1-reset").click(function(){
+                    $("#right").show(500);
+                    $("#form1").hide(500);
+                });
+            });
+            $("  #button-del").click(function () {
+                $("#form2").show(500);
+                $("#form1").hide(500);
+                $("#form3").hide(500);
+                $("#right").hide(500);
+                $("#form2-reset").click(function(){
+                    $("#right").show(500);
+                    $("#form2").hide(500);
+                });
+
+            });
+            $(" #button-up").click(function () {
+                $("#form3").show(500);
+                $("#form1").hide(500);
+                $("#form2").hide(500);
+                $("#right").hide(500);
+                $("#form3-reset").click(function () {
+                    $("#right").show(500);
+                    $("#form3").hide(500);
+                });
+            });
+        })
+    </script>
+<script type="text/javascript">
+    var room=document.getElementById("right");
+    /* 备用数据*/
+
+    /*自动生成演播厅*/
+    console.log(new Date());
+    function createmoviehall(datalist){
+        var str='';
+        for(var i=0,item;item=datalist[i++];)
+        {
+            str +='<a href="javascript:void(0)">' +
+                '<li> ' +
+                '<div id="IDp">ID:'+item.id+'</div> ' +
+                '<div id="Rows">行数:'+item.line+'</div> ' +
+                '<div id="Cols">列数:'+item.row+'</div> ' +
+                '<div id="description"><div>简介:</div><span >'+item.intro+'</span></div>' +
+                '</li>' +
+                '<div id="board"></div></a>'
+        }
+        room.innerHTML= str;
+    }
+   // createmoviehall(data);
+    /*  测试数据*/
+
+    console.log(new Date());
+    function getRoomList() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET","ListRoomServlet",true);//url未写
+        xmlhttp.send(null);
+        xmlhttp.onreadystatechange = function () {
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+               // console.log(xmlhttp.responseText);
+                var data = JSON.parse(xmlhttp.responseText);
+               // console.log(data);
+                createmoviehall(data);
+            }
+        }
+    }
+    getRoomList();
+</script>
+<script type="text/javascript">
+    /* 与后台交互模块*/
+               var add=document.getElementById("form1-submit");
+               var del=document.getElementById("form2-submit");
+               var up=document.getElementById("form3-submit");
+               var select=document.getElementById("form4-submit");
+               console.log(new Date());
+               add.onclick = function() {
+                   var xmlhttp= new XMLHttpRequest();
+                   xmlhttp.open("POST","AddRoomServlet ",true);/* url未写*/
+                   xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                   xmlhttp.send("ID="+document.getElementById("form1-ID").value +
+                       "&rows=" + document.getElementById("form1-rows").value+
+                       "&cols="+document.getElementById("form1-cols").value+
+                       "&description="+document.getElementById("form1-word").value);
+                   xmlhttp.onreadystatechange=function(){
+                       if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                           var p=eval("(" + xmlhttp.responseText + ")");
+                           if(p==true){
+                              alert("添加成功！");
+                              window.location.href="演出厅管理.html";
+                           }else{
+                               alert("添加失败!");
+                           }
+                       }
+                   }
+               };
+               console.log(new Date());
+               del.onclick = function () {
+                   var xmlhttp= new XMLHttpRequest();
+                   xmlhttp.open("POST","DeleteRoomServlet",true);/* url未写*/
+                   xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                   xmlhttp.send("ID="+document.getElementById("form2-ID").value);
+                   xmlhttp.onreadystatechange=function(){
+                       if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                           var p=eval("(" + xmlhttp.responseText + ")");
+                           if(p==true){
+                               alert("删除成功！");
+                               window.location.href="演出厅管理.html";
+                           }else{
+                               alert("删除失败!");
+                           }
+                       }
+                   }
+               };
+               console.log(new Date());
+               up.onclick=function () {
+                   var xmlhttp= new XMLHttpRequest();
+                   xmlhttp.open("POST","UpdateRoomServlet",true);/* url未写*/
+                   xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+                   xmlhttp.send("ID="+document.getElementById("form3-ID").value+
+                       "&rows=" + document.getElementById("form3-rows").value+
+                       "&cols="+document.getElementById("form3-cols").value+
+                       "&description="+document.getElementById("form3-word").value);
+                   xmlhttp.onreadystatechange=function(){
+                       if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                           var p=eval("(" + xmlhttp.responseText + ")");
+                           if(p==true){
+                               alert("修改成功！");
+                               window.location.href="演出厅管理.html";
+                           }else{
+                               alert("修改失败");
+                           }
+                       }
+                   }
+               };
+               console.log(new Date());
+               select.onclick=function () {
+                   var xmlhttp= new XMLHttpRequest();
+                   xmlhttp.open("POST","SearchRoomServlet ",true);/* url未写*/
+                   xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                   xmlhttp.send("ID="+document.getElementById("form4-ID").value);
+                   xmlhttp.onreadystatechange=function(){
+                       if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                           var list = JSON.parse(xmlhttp.responseText);
+                           if(list==null){
+                               alert("该演播厅不存在！");
+                           }else{
+                                alert("演播厅ID:"+list.ID
+                                      +"行数"+list.rows
+                                      +"列数"+list.cols
+                                      +"简介"+list.description);
+
+                           }
+                       }
+                   }
+               }
+</script>
+<script type="text/javascript">
+      var btn=document.getElementById("all-button");
+      var tl=document.getElementById("left-move");
+       var tr=document.getElementById("right-move");
+       tr.onclick=function () {
+       tr.style.left="-50"+"px";
+       tl.style.left="-5"+"px";
+       btn.style.left="0";
+    };
+    tl.onclick=function () {
+        //console.log(1);
+        tl.style.left="-50"+"px";
+        tr.style.left="-5"+"px";
+        btn.style.left="-160"+"px";
+    };
+
+</script>
+</body>
+</html>

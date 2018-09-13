@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background: #ffffff url(images/草原_meitu_3_meitu_1.jpg)no-repeat;
+            background-size: cover;
+
+
+        }
+
+
+        #cus{
+
+            position:absolute;
+            display: block;
+            border: none;
+            top: 100px;
+            left: 450px;
+            font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+
+        }
+        #cus td,#cus th{
+            font-size: 1em;
+            border-radius: 5px;
+            padding: 3px 7px 2px 7px;
+            border: none;
+            width:150px;
+            overflow: hidden;
+
+        }
+        #cus th{
+            border: none;
+            height: 30px
+            font-size: 30px;
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #4dd0ff;
+            color: #000000;
+            font-weight:normal;
+            width:150px;
+            overflow: hidden;
+            border-radius: 5px
+        }
+        #title{
+            height: 50px;
+            width: 80%;
+            background-color: #a7c942;
+            text-align: center;
+            padding-top: 5px;
+            padiing-bottom:4px;
+            color: #4dd0ff;
+
+        }
+        .dub
+        {
+            color: #000000;
+            font-size: 20px;
+            height: 50px;
+            width: 80%;
+            text-align: center;
+            background-color: #4dd0ff;
+
+        }
+        .odd
+        {
+            color: #000000;
+            font-size: 20px;
+            height: 50px;
+            width: 80%;
+            text-align: center;
+            background-color: #40a0cd;
+
+        }
+
+        #sale{
+            width: 150px;
+            height: 40px;
+            background: #e5e0e4;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+        #sale:hover{
+            background: #ffffff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="banner">
+    <table id="cus"></table>
+    </div>
+  <script>
+
+      var cus=document.getElementById("cus");
+      function createplan(data){
+          var str='<tr id="title">' +
+              '<th>ID</th>'+
+              '<th>演出厅</th>' +
+              '<th>影片名称</th>'+
+              '<th>开始时间</th>'+
+              '<th>票价</th>'+
+              '<th>购票</th>'+
+              '</tr>';
+          for(var i=0,temp;temp=data[i];i++) {
+
+                  console.log(temp.plan_id);
+                  if (i % 2 === 0) {
+                      str += '<tr class="dub">' +
+                          '<td>' + temp.plan_id    +'</td>'+
+                          '<td>' + temp.room_id + '</td>' +
+                          '<td>' + temp.movie_title + '</td>' +
+                          '<td>' + temp.begin_time + '</td>' +
+                          '<td>' + temp.price + ' RMB</td>' +
+                          '<td ><button id="sale">'+'选座购票'+'</button></td>' +
+                          '</tr>'
+                  }
+                  else{
+                      str += '<tr class="odd">' +
+                          '<td>' + temp.plan_id+ '</td>' +
+                          '<td>' + temp.room_id+'</td>'+
+                          '<td>' + temp.movie_title + '</td>' +
+                          '<td>' + temp.begin_time + '</td>' +
+                          '<td>' + temp.price + ' RMB</td>' +
+                          '<td ><button id="sale">'+'选座购票'+'</button></td>'+
+                          '</tr>'
+                  }
+              }
+
+          cus.innerHTML=str;
+      }
+      var CookieUtil = {
+          get: function(name) {
+              var cookieName = encodeURIComponent(name) + "=",
+                      cookieStart = document.cookie.indexOf(cookieName),
+                      cookieValue = null;
+              if(cookieStart > -1) {
+                  var cookieEnd = document.cookie.indexOf(";",cookieStart);
+                  if(cookieEnd == -1) {
+                      cookieEnd = document.cookie.length;
+                  }
+                  cookieValue = decodeURIComponent(document.cookie.substring(cookieStart
+                          +cookieName.length,cookieEnd));
+              }
+              return cookieValue;
+          },
+          set: function(name,value) {
+              var cookieText = encodeURIComponent(name) + "=" +
+                      encodeURIComponent(value);
+              document.cookie = cookieText;
+          }
+      };
+      var title = CookieUtil.get("title");
+
+      console.log(title);
+   function getPlan(){
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("POST","SearchPlanByMovieServlet",true);    //url未写
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp.send("title="+title);
+    xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState==4&&xmlhttp.status==200){
+            console.log(xmlhttp.responseText);
+            var data=JSON.parse(xmlhttp.responseText);
+            console.log(data);
+            createplan(data);
+            soldticket(data);
+        }
+    }
+}
+	 
+
+      function soldticket(data) {
+          var sale = document.getElementsByTagName("button");
+          var i,len;
+          for(i=0,len=sale.length;i<len;i++) {
+              sale[i].index = i;
+              sale[i].onclick = function () {
+                  num = this.index;
+                  CookieUtil.set("plan_id",data[num].plan_id);
+                  window.location = "选座购票.html";
+              }
+          }
+      }
+		getPlan();
+  </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="liyan" content="HTML,ASP,PHP,SQL">
+    <title>明日西邮影院管理</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        html { height: 100%; }
+        body {
+            height: 100%;
+            background-image: url(images/tom.jpg);
+            width:1920px;
+            height:674px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: 2s}
+        a {
+            text-decoration: none;
+            color: rgba(253, 248, 255, 0.85);
+        }
+        .log {
+            width:50px;
+            height: 50px;
+            margin-left: 600px;
+            margin-top: 10px;
+        }
+        .wrap {
+            width: 1920px;
+            height: 330px;
+            margin: 250px auto;
+            box-shadow: 0 0 25px rgba(108, 103, 110, 0.71);;
+
+        }
+        .slogan {
+            margin:0 640px;
+            width: 600px;
+            height: 200px;
+            font-size: 135px;
+            font-family: 华文行楷;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .buttons {
+            margin:30px 0;
+            width: 1920px;
+            height: 100px;
+        }
+        .form-item input {
+            width: 288px; height: 48px;
+            padding-left: 70px;
+            border: 1px solid #fff;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #fff;
+            background-color: transparent;
+            outline: none;}
+
+        .l-btn {
+            position: absolute;
+            left:575px;
+            width: 200px; height:50px;
+            border:0;
+            border-radius: 5px;
+            font-size: 25px;
+            color: rgba(253, 248, 255, 0.85);
+            outline: none;
+            cursor: pointer;
+            background-color: rgba(255, 85, 0, 0.65);
+            font-family: 华文楷体;
+        }
+        .m-btn {
+            position: absolute;
+            left:830px;
+            display: block;
+            width: 200px; height:50px;
+            border:0;
+            border-radius: 5px;
+            font-size: 25px;
+            color: rgba(253, 248, 255, 0.85);
+            outline: none;
+            cursor: pointer;
+            background-color: rgba(255, 85, 0, 0.65);
+            font-family: 华文楷体;
+            transition: 2s;
+
+        }
+        .m-div {
+            display: none;
+            position: absolute;
+            left:830px;
+            top:470px;
+            z-index: 3;
+            margin-top: 0;
+            width:200px;
+            border:0;
+            border-radius: 5px;
+            font-size: 25px;
+            color: rgba(253, 248, 255, 0.85);
+            outline: none;
+            cursor: pointer;
+            background-color: rgba(255, 85, 0, 0.65);
+            font-family: 华文楷体;
+            transition: 2s;
+
+        }
+        .m-div-up {
+            margin:auto 45px;
+            width:20px;
+            z-index: 3;
+            position: relative;
+
+        }
+        .m-div-down {
+            margin:auto 45px;
+            width:100px;
+            z-index: 3;
+            position: relative;
+        }
+        .m-div-line {
+            display: block;
+            width: 200px;
+            margin: 1px auto;
+            border-bottom: 1px solid rgb(0, 0, 0);
+            position: relative;
+            height: 0;
+            z-index: 3;
+        }
+
+        .r-btn {
+            position: absolute;
+            left:1080px;
+            width: 200px; height:50px;
+            border:0;
+            border-radius: 5px;
+            font-size: 25px;
+            color: rgba(253, 248, 255, 0.85);
+            outline: none;
+            cursor: pointer;
+            background-color: rgba(255, 85, 0, 0.65);
+            font-family: 华文楷体
+        }
+        .foot {
+            width:1920px;
+            height: 70px;
+            background-color: white;
+            position: absolute;
+            top:902px;
+
+        }
+        .foot .foot-name {
+            font-family: 微软雅黑 Light;
+            font-size: 23px;
+            float: right;
+            margin-right: 1000px;
+            margin-top: 20px;
+
+        }
+        .foot .foot-name-2 {
+            position: absolute;
+            left:1000px;
+            top: 25px;
+        }
+        .foot .alipay {
+           position: absolute;
+            left:1100px;
+            top: 15px;
+            cursor: pointer;
+        }
+        .foot .paypal {
+            position: absolute;
+            left:1200px;
+            top: 22px;
+            cursor: pointer;
+        }
+        .foot .visa {
+            position: absolute;
+            left:1300px;
+            top: 22px;
+            cursor: pointer;
+        }
+        .foot .eclipse {
+            position: absolute;
+            left: 1400px;
+            top: 10px;
+            cursor: pointer;
+        }
+
+
+    </style>
+    <script src="jquery.min.js"></script>
+
+
+</head>
+<body>
+    <div class="wrap">
+        <div class="slogan">
+            明日西邮
+        </div>
+        <div class="buttons">
+            <button class="l-btn" id="l-btn">售票</button>
+            <button class="m-btn" id="far">管理</button>
+            <div id="son" class="m-div">
+                <a href="演出厅管理.html" target="_blank"><span class="m-div-up">管理影厅</span></a>
+                <span class="m-div-line"></span>
+                <a href="剧目管理.html" target="_blank"><span class="m-div-down">管理剧目</span></a>
+            </div>
+            <button class="r-btn" id="r-btn">演出计划</button>
+        </div>
+    </div>
+    <div class="foot">
+        <img class="log" src="images/logo2.png">
+        <span class="foot-name"> 陕西省明日西邮影业</span>
+        <span class="foot-name-2"> 技术支持：</span>
+        <img class="alipay" src="images/alipay.png">
+        <img class="paypal" src="images/paypal.png">
+        <img class="visa" src="images/visa.png">
+        <img class="eclipse" src="images/eclipse.png">
+    </div>
+    <script type="text/javascript">
+        var imgArray = ["tom.jpg","chen.jpg","depp.jpg"];
+        var i = 0;
+        setInterval(function(){
+                if(i >= 3) {
+                    i = 0;
+                }
+                document.body.style.backgroundImage = "url(images/"+imgArray[i++]+")";
+            /*console.log(imgArray[i++]);*/
+
+        },3000);
+    </script>
+    <script>
+    	var lbtn = document.getElementById("l-btn");	
+    	lbtn.onclick = function() {
+    	window.location.href = "售票.html";
+    	}
+    	var rbtn = document.getElementById("r-btn");	
+    	rbtn.onclick = function() {
+    	window.location.href = "计划管理.html"
+    	}
+        var mbtn = document.getElementById("far");
+        var mdiv = document.getElementById("son");
+        mbtn.onmouseenter = function () {
+            mbtn.style.display="none";
+            mdiv.style.display="block";
+
+        }
+        mdiv.onmouseleave= function () {
+            mbtn.style.display="block";
+            mdiv.style.display="none";
+        }
+    </script>
+</body>
+</html>

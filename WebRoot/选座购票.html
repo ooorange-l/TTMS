@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body
+            {
+                height: 100%;
+                width: 100%;
+
+            }
+            .front{width: 600px;
+                margin: 10px 40px 50px 300px;
+                background-color: #f0f0f0;
+                color: #595959;
+                text-align: center;
+                padding: 3px;
+                border-radius: 5px;}
+            #seat-map {
+                width: 1000px;
+                position: absolute;
+                left:200px;
+
+            }
+            .seat {
+                background-color: #ffffff;
+                width: 40px;
+                height: 40px;
+                float: left;
+                margin-left: 10px;
+            }
+            .available {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                cursor: pointer;
+                background-image: url("images/未选择座位.png");
+            }
+            .selected {
+                display: none;
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                cursor: pointer;
+                background-image: url("images/被选座位.png");
+            }
+            .sold {
+                display: none;
+                z-index: 2;
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                cursor: not-allowed;
+                background-image: url("images/已售出座位.png");
+            }
+            
+            #seat-row {
+                height: 50px;
+                margin-top:10px;
+            }
+            .booking-details {
+                float: right;
+                position: absolute;
+                top:50px;
+                right: 300px;
+                width:300px;
+                height: 600px;
+                border-left: 1px solid gray;
+                padding-left: 50px;
+            }
+            .booking-details h3 {margin: 5px 5px 0 0;
+                font-size: 16px;}
+            .booking-details p{
+                line-height:26px;
+                font-size:16px;
+                color:#999}
+            .booking-details p span{
+                color:#666}
+            .booking-details ul {
+                list-style-type: none;
+            }
+            #selected-seats {max-height: 150px;
+                overflow-y: auto;
+                overflow-x: none;
+                width: 200px;}
+            #selected-seats li{float:left;
+                width:72px;
+                height:26px;
+                line-height:26px;
+                border:1px solid #d3d3d3;
+                background:#f7f7f7;
+                margin:6px;
+                font-size:14px;
+                font-weight:bold;
+                text-align:center;}
+               /*支付界面*/
+            #pay{
+                position: absolute;
+                display: none;
+                width: 600px;
+                height: 400px;
+                top: 10%;
+                left:24%;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+            //  border: 2px solid #020209;
+                background: rgba(214, 223, 236, 0.8);
+            }
+            #button-wx{
+                position: absolute;
+                display:none;
+                width: 150px;
+                height: 150px;
+                outline: none;
+                border: none;
+                border-radius: 50%;
+                font-size: 20px;
+                background: rgba(216, 218, 218, 0.82);
+                font-family: 微软雅黑;
+                left: 380px;
+                top: 135px;
+                box-shadow: 0 0 20px #ffffff;
+                cursor: pointer;
+                transition: 500ms;
+            }
+            #button-zf{
+                position: absolute;
+                display:none;
+                width: 150px;
+                height: 150px;
+                outline: none;
+                border: none;
+                border-radius: 50%;
+                font-size: 20px;
+                background: rgba(216, 218, 218, 0.82);
+                font-family: 微软雅黑;
+                left: 70px;
+                top: 135px;
+                box-shadow: 0 0 20px #ffffff;
+                cursor: pointer;
+                transition: 500ms;
+            }
+            #button-wx:hover,#button-zf:hover{
+                width: 170px;
+                height: 170px;
+                cursor: pointer;
+            }
+            #wx{
+                position:absolute;
+                display: none;
+                height: 167px;
+                width: 167px;
+                top: 100px;
+                left: 200px;
+            //  border: 1px solid #020209;
+                background:url(images/weixin.png);
+                background-size: 100%;
+                z-index: 5;
+            }
+            #zf {
+                position:absolute;
+                display: none;
+                height: 195px;
+                width: 196px;
+                top: 80px;
+                left: 190px;
+                background:url(images/zhifubao.jpg);
+                background-size: 100%;
+            }
+            #payfor{
+                 position: absolute;
+                 display:none;
+                 width: 100px;
+                 height: 40px;
+                 outline: none;
+                 border: none;
+                 border-radius: 15px;
+                 font-size: 20px;
+                 background: rgba(200, 200, 200, 0.84);
+                 font-family: 微软雅黑;
+                 left: 150px;
+                 top: 340px;
+                 box-shadow: 0 0 20px #ffffff;
+                 cursor: pointer;
+                 transition: 500ms;
+                 color: #ffffff;
+             }
+            #back{
+                position: absolute;
+                display:none;
+                width: 100px;
+                height: 40px;
+                outline: none;
+                border: none;
+                border-radius: 15px;
+                font-size: 20px;
+                background: rgba(200, 200, 200, 0.84);
+                font-family: 微软雅黑;
+                left: 320px;
+                top: 340px;
+                box-shadow: 0 0 20px #ffffff;
+                cursor: pointer;
+                transition: 500ms;
+                color: #ffffff;
+            }
+            #payfor:hover,#back:hover{
+                width: 110px;
+                height: 45px;
+
+            }
+               
+
+        </style>
+    </head>
+    <body>
+        <div class="front">屏幕</div>
+        <div id="seat-map">
+        </div>
+        <div class="booking-details">
+            <p>影片:<span></span></p>
+            <p>座位:</p>
+            <ul id="selected-seats">
+            </ul>
+            <p>票数:<span id="counter"></span></p>
+            <p>总价￥:<span id="total"></span></p>
+            <input id="handup" type="button"  value="提交">
+        </div>
+        <div id="pay">
+            <button type="button" id="button-wx">微信付款</button>
+            <button type="button" id="button-zf">支付宝</button>
+            <div id="wx"></div>
+            <div id="zf"></div>
+            <button type="button" id="payfor">确认付款</button>
+            <button type="button" id="back">取消付款</button>
+        </div>
+    </body>
+    <script>
+        /*
+         * cookie
+         * */
+        var CookieUtil = {
+            get: function(name) {
+                var cookieName = encodeURIComponent(name) + "=",
+                        cookieStart = document.cookie.indexOf(cookieName),
+                        cookieValue = null;
+                if(cookieStart > -1) {
+                    var cookieEnd = document.cookie.indexOf(";",cookieStart);
+                    if(cookieEnd == -1) {
+                        cookieEnd = document.cookie.length;
+                    }
+                    cookieValue = decodeURIComponent(document.cookie.substring(cookieStart
+                            +cookieName.length,cookieEnd));
+                }
+                return cookieValue;
+            },
+            set: function(name,value) {
+                var cookieText = encodeURIComponent(name) + "=" +
+                        encodeURIComponent(value);
+                document.cookie = cookieText;
+            }
+        };
+        var plan_id = CookieUtil.get("plan_id");
+        console.log(plan_id);
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("POST","SeatServlet",true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send("plan_id="+plan_id);
+        xmlhttp.onreadystatechange = function () {
+            if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                var movielist = JSON.parse(xmlhttp.responseText);
+                createseat(movielist.row,movielist.line);
+                provingseat(movielist.row,movielist.line);
+                clickseat(movielist.price,movielist.row,movielist.line);
+            }
+        }
+        function createseat(row,col) {
+            var seatmap = document.getElementById("seat-map");
+            var str ='';
+            var str2 ='';
+            for(var i=0;i<col;i++){
+                str+='<div class="seat">'+
+                        '<div class="available"></div>'+
+                        '<div class="selected"></div>'+
+                        '<div class="sold"></div>'+
+                        '</div>';
+            }
+            for(var j=0;j<row;j++){
+
+                str2+='<div id="seat-row">'+str+"</div>";
+            }
+            seatmap.innerHTML = str2;
+          
+        }
+       function provingseat(row,line) {
+           var i,j;
+           var sold = document.getElementsByClassName("sold");
+           var xmlhttp=new XMLHttpRequest();
+           xmlhttp.open("POST","AllSeatServlet",true);
+           xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+           xmlhttp.send("plan_id="+plan_id);
+           xmlhttp.onreadystatechange = function () {
+               if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+                   var seat = JSON.parse(xmlhttp.responseText);
+                 	console.log(seat[1].status);
+                   for(i=1;i<=row;i++){
+                       for(j=1;j<=line;j++){
+                       		var numb = (i-1)*line+j;
+                       		console.log(seat[numb-1].status);
+                           if(seat[numb-1].status==1){
+                           		
+                               var num = (i-1)*line+j;
+                               sold[num-1].style.display = "block";
+                           }
+                       }
+                   }
+               }
+           }
+       }
+       function checkseat(hang,line){
+       	 /*验证座位情况*/
+                      
+           xmlhttp.open("POST","CheckServlet",true);
+           xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+           xmlhttp.send("row="+hang+"&line="+line+"&plan_id="+plan_id);
+           xmlhttp.onreadystatechange = function () {
+               	if(xmlhttp.readyState == 4&&xmlhttp.status == 200) {
+               		var data = JSON.parse(xmlhttp.responseText);
+               		if(data === false){
+               			alert("该座位已被选定！");
+               			}
+               		}
+               	}
+       }
+       	var j=0;
+        var k=0;
+        var l=0;
+        var seatindex = new Array();
+        var row2 = new Array();
+        var line2 = new Array();
+        function clickseat(price,row,line) {
+        	/*var j=0;
+        	var k=0;
+        	var l=0;
+        	var seatindex = new Array();
+        	var row2 = new Array();
+        	var line2 = new Array();*/
+            var seat = document.getElementsByClassName("seat");
+            var available = document.getElementsByClassName("available");
+            var selected = document.getElementsByClassName("selected");
+            var sold = document.getElementsByClassName("sold");
+            var total=0;
+            var i,len;
+           
+            for(i = 0,len = seat.length;i<len;i++){
+                seat[i].index = i;
+                seat[i].state = 0;
+                console.log(sold[i].style.display=="none");
+              
+                seat[i].onclick = function () {
+                    num = this.index;
+                    if(seat[num].state ==0) {
+                        available[num].style.display = "none";
+                        selected[num].style.display = "block";
+                        seat[num].state = 1;
+                        /*输出位置*/
+                        var hang = Math.floor(num/line)+1;
+                        var lie = num%row + 1;
+                        var str3 = '';
+                        str3 += '<li>'+hang+'排'+lie+'列'+'</li>';
+                        var slectedseat = document.getElementById("selected-seats");
+                        slectedseat.innerHTML = str3;
+                       
+                        /*输出金钱
+                        */
+
+                        total=total+price;
+                        var price1 = document.getElementById("total");
+                        price1.innerHTML = total;
+                        checkseat(hang,lie);
+                        addseatrow(hang,row2,j);
+                        j++;
+                        addseatline(lie,line2,k);
+                        k++;
+                        setseatindex(num,seatindex,l);
+                        l++;
+                    }
+                    else if(seat[num].state ==1) {
+                        available[num].style.display = "block";
+                        selected[num].style.display = "none";
+                        seat[num].state = 0;
+                        var str3 = '';
+                        str3 += '';
+                        var slectedseat = document.getElementById("selected-seats");
+                        slectedseat.innerHTML = str3;
+                        /*输出金钱*/
+                        total=total-price;
+                        var price1 = document.getElementById("total");
+                        price1.innerHTML = total;
+                        delseatrow(num,seatindex,row2);
+                        delseatline(num,seatindex,line2); 
+                    }
+                }	
+            }
+        }
+        function addseatrow(hang,row,j){
+           
+           row[j] = hang;
+           console.log(row);
+           return row;
+          }
+        function delseatrow(num,seatindex,row) {
+        console.log(num);
+         var index = isHasElementOne(seatindex,num);
+      
+         row.splice(index,1,-1);
+         console.log(row);
+        }     
+        
+        function addseatline(lie,line,k) {
+         line[k] = lie;
+         console.log(line);
+         return line;
+        }
+        function delseatline(num,seatindex,line) {
+        console.log(num);
+         var index = isHasElementOne(seatindex,num);
+       
+         line.splice(index,1,-1);
+         console.log(line);
+        }
+        function setseatindex(num,seatindex,l) {
+        seatindex[l] = num;
+        console.log(seatindex);
+         return seatindex;
+        }
+        function isHasElementOne(arr,value) {
+        for(var i = 0,vlen = arr.length;i< vlen;i++){
+        if(arr[i]==value){
+        return i;
+        break;
+        }
+        }   
+        return -1;
+        }
+
+    
+      var handup=document.getElementById("handup");
+      var pay=document.getElementById("pay");
+      var btnwx=document.getElementById("button-wx");
+      var btnzf=document.getElementById("button-zf");
+      var wx=document.getElementById("wx");
+      var zf=document.getElementById("zf");
+      var ok=document.getElementById("payfor");
+      var back=document.getElementById("back");
+      handup.onclick=function () {
+          pay.style.display = "block";
+          btnwx.style.display = "block";
+          btnzf.style.display = "block";
+          
+          for(var i=0;i<seatindex.length-1;i++){
+         		  var xmlhttp= new XMLHttpRequest();
+                  xmlhttp.open("POST","BuyServlet",true);
+                  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                
+                  console.log(row2[i]);
+                  xmlhttp.send("row="+row2[i]+"&line="+line2[i]+"&plan_id="+plan_id);
+                  /*xmlhttp.onreadystatechange = function () {
+                      if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                        var result = JSON.parse("xmlhttp.responseText");
+                        if(result==true) {
+                        window.location.href = "选座购票.html";
+                        }else{
+                        alert("购买失败");
+                        }
+                      }
+                  }*/
+                }
+                /**/
+                var xmlhttp= new XMLHttpRequest();
+                  xmlhttp.open("POST","BuyServlet",true);
+                  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                
+                  console.log(row2[i]);
+                  xmlhttp.send("row="+row2[i]+"&line="+line2[i]+"&plan_id="+plan_id);
+                  xmlhttp.onreadystatechange = function () {
+                      if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                        var result = JSON.parse("xmlhttp.responseText");
+                        /*if(result==true) {
+                        window.location.href = "选座购票.html";
+                        }else{
+                        alert("购买失败");
+                        }*/
+                      }
+                  }
+         };
+          btnwx.onclick = function () {
+              btnwx.style.display = "none";
+              btnzf.style.display = "none";
+              wx.style.display = "block";
+              ok.style.display = "block";
+              back.style.display="block";
+              /*ok.onclick = function () {
+                  ok.style.display = "none";
+                  //未完待续
+                 // wx.style.display = "none";
+                  //pay.style.display = "none";
+              };*/
+              back.onclick=function () {
+                  wx.style.display = "none";
+                  ok.style.display = "none";
+                  back.style.display="none";
+                  btnwx.style.display = "block";
+                  btnzf.style.display = "block";
+              }
+          };
+          btnzf.onclick = function () {
+              btnwx.style.display = "none";
+              btnzf.style.display = "none";
+              zf.style.display = "block";
+              ok.style.display = "block";
+              back.style.display="block";
+             /* ok.onclick = function () {
+                  ok.style.display = "none";
+                  //未完待续
+                  //zf.style.display = "none";
+                  //pay.style.display = "none";
+              };*/
+              back.onclick=function () {
+                  zf.style.display = "none";
+                  ok.style.display = "none";
+                  back.style.display="none";
+                  btnwx.style.display = "block";
+                  btnzf.style.display = "block";
+              }
+          };
+          pay.ondblclick=function(){
+              pay.style.display = "none";
+              btnwx.style.display = "none";
+              btnzf.style.display = "none";
+          }
+        
+        
+        
+         ok.onclick = function() {
+         
+         for(var i=0;i<seatindex.length-1;i++){
+         		  var xmlhttp= new XMLHttpRequest();
+                  xmlhttp.open("POST","BuyServlet",true);
+                  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                
+                  console.log(row2[i]);
+                  xmlhttp.send("row="+row2[i]+"&line="+line2[i]+"&plan_id="+plan_id);
+                  /*xmlhttp.onreadystatechange = function () {
+                      if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                        var result = JSON.parse("xmlhttp.responseText");
+                        if(result==true) {
+                        window.location.href = "选座购票.html";
+                        }else{
+                        alert("购买失败");
+                        }
+                      }
+                  }*/
+                }
+                /**/
+                var xmlhttp= new XMLHttpRequest();
+                  xmlhttp.open("POST","BuyServlet",true);
+                  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                
+                  console.log(row2[i]);
+                  xmlhttp.send("row="+row2[i]+"&line="+line2[i]+"&plan_id="+plan_id);
+                  xmlhttp.onreadystatechange = function () {
+                      if(xmlhttp.readyState == 4&&xmlhttp.status == 200){
+                        var result = JSON.parse("xmlhttp.responseText");
+                        if(result==true) {
+                        window.location = "选座购票.html";
+                        }else{
+                        alert("购买失败");
+                        }
+                      }
+                  }
+         }
+      
+</script>
+</html>
